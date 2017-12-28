@@ -44,14 +44,18 @@ app.get('/', function homepage(req, res) {
  * ORDER THAT THE TESTS DICTATE.
  */
 
+//Search Todos By Task
 app.get('/api/todos/search', function search(req, res) {
    res.send({todos:todos.filter(function(thing){return thing.task === req.query.q;})});
 });
 
-app.get('/api/todos', function index(req, res) {
+
+//Show All Todos (GET)
+ app.get('/api/todos', function index(req, res) {
   res.send({todos: todos});
 });
 
+//Create Todos (POST)
 app.post('/api/todos', function create(req, res) {
   if(req.body.task && req.body.description){
     var newTodo = {
@@ -64,11 +68,12 @@ app.post('/api/todos', function create(req, res) {
   }
 });
 
+//Show a Todo (GET w/ ID)
 app.get('/api/todos/:id', function show(req, res) {
     res.send(todos.find(function(todos){return todos._id === Number(req.params.id);}));
   });
 
-
+//Update a Todo (PUT)
 app.put('/api/todos/:id', function update(req, res) {
    let thisTodo = todos.find(function(todos){return todos._id === Number(req.params.id);});
    if(req.body.task) thisTodo.task = req.body.task;
@@ -76,6 +81,7 @@ app.put('/api/todos/:id', function update(req, res) {
    res.send(thisTodo);
 });
 
+//DESTROY Todos (DELETE)
 app.delete('/api/todos/:id', function destroy(req, res) {
   let thisTodo = todos.find(function(todos){return todos._id === Number(req.params.id);});
   res.send(thisTodo);
